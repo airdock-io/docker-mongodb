@@ -13,6 +13,7 @@ Purpose of this image is:
 
 ***Few links***:
 
+- [Dockerizing MongoDB](https://docs.docker.com/examples/mongodb/)
 - [Iron Pinguin dockerfile](https://github.com/ironpinguin/docker-mongodb/blob/master/Dockerfile)
 - [Sharded Cluster](https://sebastianvoss.com/docker-mongodb-sharded-cluster.html)
 
@@ -24,14 +25,26 @@ Purpose of this image is:
 3. Execute:
 	'docker run -t -i  airdock/mongodb '
 
+
+Notes:
+
+- configuration file: /etc/mongod.conf
+- data file: /var/lib/mongodb
+
+
 TODO add sharded cluster DockerFig sample
 
 # Change Log
 
 ## latest (current)
 
-- add mongodb 2.6.1
+- add mongodb 2.6.7
 - add variable MONGODB_VERSION
+- Listen on all address
+- Output log to stdout
+- Add volume to data (/var/lib/mongodb)
+- Set workdir to data folder 
+- launch mongod with mongodb:mongodb
 
 # Build
 

@@ -10,29 +10,27 @@ FROM airdock/base:latest
 MAINTAINER Jerome Guibert <jguibert@gmail.com>
 
 # Version
-ENV MONGODB_VERSION=1.6.2
+ENV MONGODB_VERSION=2.6.7
 
 # Add 10gen official apt source to the sources list
-# Install mogodb full
-
+# Install mondoDb
+# Fix port, bind on all local address, log to stdout
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10 && \
 	echo 'deb http://downloads-distro.mongodb.org/repo/debian-sysvinit dist 10gen' | tee /etc/apt/sources.list.d/mongodb.list && \
 	apt-get update -qq && \
 	apt-get install -y adduser mongodb-org=$MONGODB_VERSION && \
+	sed 's/^bind_ip/#bind_ip/' -i /etc/mongod.conf && \
+	sed 's/^#port/port/' -i /etc/mongod.conf && \
+	sed 's/^logpath/#logpath/' -i /etc/mongod.conf && \
 	apt-get clean -qq && \
 	rm -rf /var/lib/apt/lists/* /var/lib/apt/lists/* /tmp/* /var/tmp/* 
 
-# Create the MongoDB data directory
-RUN mkdir -p /data/db
-RUN mkdir -p /data/configdb
-
-WORKDIR /data
+WORKDIR /var/lib/mongodb
 
 # declare volume
-VOLUME ["/data/db"]
-VOLUME ["/data/configdb"]
+VOLUME ["/var/lib/mongodb"]
 
 # expose standard port
 EXPOSE 27017 27019 28017
 
-CMD ["mongod"]
+CMD ["gosu", "mongodb:mongodb", "/usr/bin/mongod", "--config", "/etc/mongod.conf"]

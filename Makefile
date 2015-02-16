@@ -29,5 +29,5 @@ debug:
 	docker run -t -i $(NAME):$(VERSION)
 
 run:
-	@echo "IPAddress =" $$(docker inspect --format '{{.NetworkSettings.IPAddress}}' $$(docker run -d $(NAME):$(VERSION)))
+	@echo "IPAddress =" $$(docker inspect --format '{{.NetworkSettings.IPAddress}}' $$(docker run -d -p 27017:27017 $(NAME):$(VERSION)))
 	
