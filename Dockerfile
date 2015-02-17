@@ -1,6 +1,6 @@
 # VERSION 1.0
 # AUTHOR:         Jerome Guibert <jguibert@gmail.com>
-# DESCRIPTION:    Ngnix docker Image
+# DESCRIPTION:    MongoDB Docker Image
 # TO_BUILD:       docker build --rm -t airdock/mongodb .
 # SOURCE:         https://github.com/airdock-io/docker-mongodb
 
