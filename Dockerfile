@@ -15,6 +15,7 @@ ENV MONGODB_VERSION=2.6.7
 # Add 10gen official apt source to the sources list
 # Install mondoDb
 # Fix port, bind on all local address, log to stdout
+# set mongodb user id 103:103
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10 && \
 	echo 'deb http://downloads-distro.mongodb.org/repo/debian-sysvinit dist 10gen' | tee /etc/apt/sources.list.d/mongodb.list && \
 	apt-get update -qq && \
@@ -22,8 +23,9 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10 && \
 	sed 's/^bind_ip/#bind_ip/' -i /etc/mongod.conf && \
 	sed 's/^#port/port/' -i /etc/mongod.conf && \
 	sed 's/^logpath/#logpath/' -i /etc/mongod.conf && \
+	/root/fix-user mongodb 103 103 && \
 	apt-get clean -qq && \
-	rm -rf /var/lib/apt/lists/* /var/lib/apt/lists/* /tmp/* /var/tmp/* 
+	rm -rf /var/lib/apt/lists/* /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 WORKDIR /var/lib/mongodb
 

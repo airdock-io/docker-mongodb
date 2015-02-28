@@ -19,14 +19,43 @@ Purpose of this image is:
 
 # Usage
 
-1. You should have already install [Docker](https://www.docker.com/) and [Fig](http://www.fig.sh/) for more complex usage.
-2. Download [automated build](https://registry.hub.docker.com/u/airdock/) from public [Docker Hub Registry](https://registry.hub.docker.com/):
-`docker search airdock` or go directly in 3.
-3. Execute:
-	'docker run -t -i  airdock/mongodb '
+You should have already install [Docker](https://www.docker.com/) and [Fig](http://www.fig.sh/) for more complex usage.
+Download [automated build](https://registry.hub.docker.com/u/airdock/) from public [Docker Hub Registry](https://registry.hub.docker.com/):
+`docker search airdock`
+
+Execute:
+
+	'docker run -t -i -p 27017:27017 --name mongodb airdock/mongodb '
 
 
-Notes:
+## With a persistent storage
+
+
+	'docker run -d -p 27017:27017 -v /var/lib/mongodb:/var/lib/mongodb --name mongodb airdock/mongodb'
+
+Take care about your permission on host folder named '/var/lib/mongodb'.
+
+The user mongodb (uid 103) in your container should be known into your host.
+See [How Managing user in docker container](https://github.com/airdock-io/docker-base/blob/master/README.md#how-managing-user-in-docker-container) and  [Common User List](https://github.com/airdock-io/docker-base/blob/master/CommonUserList.md).
+
+So you should create an user with this uid:gid:
+
+```
+  sudo groupadd mongodb -g 103
+  sudo useradd -u 103  --no-create-home --system --no-user-group mongodb
+  sudo usermod -g mongodb mongodb
+```
+
+And then set owner and permissions on your host directory:
+
+```
+	chown -R mongodb:mongodb /var/lib/mongodb
+```
+
+
+
+
+### Notes:
 
 - configuration file: /etc/mongod.conf
 - data file: /var/lib/mongodb
@@ -43,7 +72,7 @@ TODO add sharded cluster DockerFig sample
 - Listen on all address
 - Output log to stdout
 - Add volume to data (/var/lib/mongodb)
-- Set workdir to data folder 
+- Set workdir to data folder
 - launch mongod with mongodb:mongodb
 
 # Build
@@ -51,7 +80,7 @@ TODO add sharded cluster DockerFig sample
 Alternatively, you can build an image from [Dockerfile](https://github.com/airdock-io/docker-nginx).
 Install "make" utility, and execute: `make build`
 
-In Makefile, you could retreive this *variables*:
+In Makefile, you could retrieve this *variables*:
 
 - NAME: declare a full image name (aka airdock/mongodb)
 - VERSION: declare image version
@@ -61,8 +90,8 @@ And *tasks*:
 - all: alias to 'build'
 - clean: remove all container which depends on this image, and remove image previously builded
 - build: clean and build the current version
-- tag_latest: build and tag current version with ":latest"
-- release: execute tag_latest, push image onto registry, and tag git repository
+- tag_latest: tag current version with ":latest"
+- release: build and execute tag_latest, push image onto registry, and tag git repository
 - debug: launch default command with builded image in interactive mode
 - run: run image as daemon and print IP address.
 
