@@ -23,11 +23,7 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10 && \
 	sed 's/^bind_ip/#bind_ip/' -i /etc/mongod.conf && \
 	sed 's/^#port/port/' -i /etc/mongod.conf && \
 	sed 's/^logpath/#logpath/' -i /etc/mongod.conf && \
-	/root/fix-user mongodb 103 103 && \
-	apt-get clean -qq && \
-	rm -rf /var/lib/apt/lists/* /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-WORKDIR /var/lib/mongodb
+	/root/post-install
 
 # declare volume
 VOLUME ["/var/lib/mongodb"]

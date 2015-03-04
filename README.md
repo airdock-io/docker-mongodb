@@ -35,14 +35,14 @@ Execute:
 
 Take care about your permission on host folder named '/var/lib/mongodb'.
 
-The user mongodb (uid 103) in your container should be known into your host.
+The user mongodb (uid 4203) in your container should be known into your host.
 See [How Managing user in docker container](https://github.com/airdock-io/docker-base/blob/master/README.md#how-managing-user-in-docker-container) and  [Common User List](https://github.com/airdock-io/docker-base/blob/master/CommonUserList.md).
 
 So you should create an user with this uid:gid:
 
 ```
-  sudo groupadd mongodb -g 103
-  sudo useradd -u 103  --no-create-home --system --no-user-group mongodb
+  sudo groupadd mongodb -g 4203
+  sudo useradd -u 4203  --no-create-home --system --no-user-group mongodb
   sudo usermod -g mongodb mongodb
 ```
 
@@ -72,7 +72,6 @@ TODO add sharded cluster DockerFig sample
 - Listen on all address
 - Output log to stdout
 - Add volume to data (/var/lib/mongodb)
-- Set workdir to data folder
 - launch mongod with mongodb:mongodb
 
 # Build
