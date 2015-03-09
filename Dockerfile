@@ -26,7 +26,7 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10 && \
 	/root/post-install
 
 # declare volume
-VOLUME ["/var/lib/mongodb"]
+VOLUME ["/var/lib/mongodb", "/var/log/mongodb"]
 
 # expose standard port
 EXPOSE 27017 27019 28017

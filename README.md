@@ -71,7 +71,7 @@ TODO add sharded cluster DockerFig sample
 - add variable MONGODB_VERSION
 - Listen on all address
 - Output log to stdout
-- Add volume to data (/var/lib/mongodb)
+- Add volume to data (/var/lib/mongodb) and log folder (/var/log/mongodb)
 - launch mongod with mongodb:mongodb
 
 # Build
